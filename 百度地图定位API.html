@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    
+    <!-- 百度地图的js文件 -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=0AkobrM8WaHbd3a7OAHcQ4UeMktr7i77"></script>
+	<title>浏览器定位</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+ 
+<!-- 调用百度地图的api， 来展示地理位置信息 -->
+<script type="text/javascript">
+ 
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+ 
+    //没有获取到地理位置信息之前，展示的地图的位置
+	var point = new BMap.Point(113.522795,23.58375);
+    //缩放比例
+	map.centerAndZoom(point,17);
+ 
+    //开始来获取当前位置
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+ 
+            //lng和lat就是经度和纬度
+            //longitude: 经度
+            //latitude： 纬度
+			alert('您的位置：'+r.point.lng+','+r.point.lat);
+		}
+ 
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+</script>
